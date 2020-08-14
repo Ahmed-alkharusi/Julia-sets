@@ -11,6 +11,7 @@ public:
 	Complex operator*(const Complex& rhs);
 	Complex &operator=(const Complex& rhs);
 	Complex(double rhsReal, double rhsImaginary);
+	Complex power(unsigned int &n);
 
 };
 
