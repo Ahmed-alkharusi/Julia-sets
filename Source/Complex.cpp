@@ -18,3 +18,10 @@ Complex Complex::operator*(const Complex& rhs) {
 	Complex temp{ real * rhs.real - imaginary * rhs.imaginary, real * rhs.imaginary + imaginary * rhs.real };
 	return temp;
 }
+Complex Complex::power(unsigned int &n) {
+	Complex temp = *this;
+	for (size_t i{ 1 }; i < n;i++) {
+		temp = temp * (*this); //Wraning the * has two different meanings here!
+	}
+	return temp;
+}
