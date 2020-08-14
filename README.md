@@ -2,7 +2,7 @@
 Julia sets explorer (C++ app)
  ![alt text](https://github.com/Ahmed-alkharusi/Julia-sets/blob/master/Screenshot.png)
  
-  ![alt text](https://github.com/Ahmed-alkharusi/Julia-sets/blob/master/Screenshot1.png)
+  ![alt text](https://github.com/Ahmed-alkharusi/Julia-sets/blob/master/Screenshot1.PNG)
  
 A screen recording 
 https://www.youtube.com/watch?v=eSnZsMASMzM
