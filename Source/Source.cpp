@@ -22,7 +22,7 @@ https://github.com/OneLoneCoder/olcPixelGameEngine
 void print_about();
 std::string print_menu();
 int mandelbrot(Complex& domain, unsigned int& range);
-int julia(Complex zo, Complex& domain,unsigned int& range, double& r);
+int julia(Complex zo, Complex& domain,unsigned int& range, double& r, unsigned int& n);
 
 class JuliaSets : public olc::PixelGameEngine 
 {public:
@@ -40,6 +40,7 @@ private:
 	unsigned int mandelbrot_size = 700;
 	double real_mouse_loc = 0;
 	double im_mouse_loc = 0;
+	unsigned int polynomial_power = 2;
 
 public:	
 	bool OnUserCreate() override
@@ -69,6 +70,14 @@ public:
 			r += 0.01;
 		if (GetKey(olc::Key::D).bHeld)
 			r -= 0.01;
+		if (GetKey(olc::Key::X).bHeld) {
+			if (polynomial_power >2)
+				polynomial_power -= 1;
+		}
+
+		if (GetKey(olc::Key::Z).bHeld) {
+			polynomial_power += 1;
+		}
 		if (GetMouse(0).bHeld) {
 			//displays the location of the mouse with respect to the mandelbrot set
 			real_mouse_loc = (static_cast<double>(GetMouseX()) - (1920 - mandelbrot_size / 2.0 - 100.0)) * (3.0 / mandelbrot_size) - 0.5;
@@ -88,7 +97,7 @@ public:
 			for (size_t j{ 0 };j < ScreenHeight();j++) {
 				y_start -= (4.0)/ ScreenHeight();
 				Complex temp{ x_start,y_start };
-				colour_map = julia(temp, c3, range, r);
+				colour_map = julia(temp, c3, range, r, polynomial_power);
 				
 				//Colour map 
 				switch (colour_map)
@@ -169,7 +178,7 @@ public:
 			}
 
 		}
-		DrawString(10, 10, "C =" + std::to_string(c3.real) + " + i " + std::to_string(c3.imaginary) +"					" +" R = "+std::to_string(r), olc::WHITE, 2);
+		DrawString(10, 10, "C =" + std::to_string(c3.real) + " + i " + std::to_string(c3.imaginary) +"			" +" R = "+std::to_string(r) + "		Power of Z (N): "+std::to_string(polynomial_power), olc::WHITE, 2);
 
 		return true;
 		
@@ -183,8 +192,10 @@ std::string print_menu() {
 		<< std::setw(45) << std::left << std::setfill('_') << "" << "\n\n" << std::setfill(' ')
 		<< std::setw(15) << std::left << "MENU" << "| KEY (HOLD) " << "\n\n"
 		<< std::setw(15) << std::left << std::setfill('_') << "" << "\n\n" << std::setfill(' ')
-		<< std::setw(15) << std::left << "INCREASE R" << "| S " << "\n\n"
-		<< std::setw(15) << std::left << "DECREASE R" << "| D " << "\n\n"
+		<< std::setw(15) << std::left << "INCREASE N" << "| Z " 
+		<< std::setw(15) << std::right << "DECREASE N" << "| X " << "\n\n"
+		<< std::setw(15) << std::left << "INCREASE R" << "| S " 
+		<< std::setw(15) << std::right << "DECREASE R" << "| D " << "\n\n"
 		<< std::setw(15) << std::left << "ABOUT " << "| A " <<"  (SEE THE OTHER WINDOW)" <<"\n\n"
 		<< std::setw(45) << std::left << std::setfill('_') << "" << "\n\n" << std::setfill(' ')
 		<< std::endl;
@@ -212,11 +223,11 @@ int mandelbrot(Complex& domain, unsigned int& range) {
 	}
 	return range;
 }
-int julia(Complex zo,  Complex& domain, unsigned int& range, double& r) {
+int julia(Complex zo,  Complex& domain, unsigned int& range, double& r, unsigned int &n) {
 	
 	Complex result{ 0,0 };
 	for (size_t i{ 0 };i < range;i++) {
-		result = (zo * zo) + domain;
+		result = zo.power(n) + domain;
 		zo = result;
 		double ans = result.re() * result.re() + result.im() * result.im();
 		
