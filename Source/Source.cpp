@@ -70,12 +70,12 @@ public:
 			r += 0.01;
 		if (GetKey(olc::Key::D).bHeld)
 			r -= 0.01;
-		if (GetKey(olc::Key::X).bHeld) {
+		if (GetKey(olc::Key::X).bPressed) {
 			if (polynomial_power >2)
 				polynomial_power -= 1;
 		}
 
-		if (GetKey(olc::Key::Z).bHeld) {
+		if (GetKey(olc::Key::Z).bPressed) {
 			polynomial_power += 1;
 		}
 		if (GetMouse(0).bHeld) {
